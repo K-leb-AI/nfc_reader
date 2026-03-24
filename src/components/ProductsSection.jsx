@@ -82,7 +82,7 @@ export default function ProductsSection({ products = _sampleProducts }) {
                 /> */}
 
                 <span
-                  className="text-center text-lg uppercase font-semibold flex items-center justify-center "
+                  className="text-center text-sm uppercase font-semibold flex items-center justify-center "
                   style={{ color: i === active ? "#1c1c1c" : "#aaa" }}
                 >
                   {p.product_name}
