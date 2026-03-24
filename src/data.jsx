@@ -32,3 +32,33 @@ export const _sample = {
   is_active: true,
   created_at: "2023-02-10T08:00:00Z",
 };
+
+export const _sampleProducts = [
+  {
+    id: "PRD-001",
+    product_name: "Roofing Solutions",
+    description:
+      "High-durability roofing materials including corrugated sheets, metal tiles and waterproof underlays. Engineered for all weather conditions and long-term structural integrity.",
+    img_url:
+      "https://images.unsplash.com/photo-1632759145351-1d592919f522?w=600",
+    company_id: "8307f059-8fc2-4eda-88ce-394445176ac1",
+  },
+  {
+    id: "PRD-002",
+    product_name: "Steel Structures",
+    description:
+      "Precision-fabricated structural steel products including I-beams, columns, reinforcement bars and welded frames. Suitable for commercial, residential and industrial builds.",
+    img_url:
+      "https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=600",
+    company_id: "8307f059-8fc2-4eda-88ce-394445176ac1",
+  },
+  {
+    id: "PRD-003",
+    product_name: "Concrete Works",
+    description:
+      "Ready-mix and precast concrete products for foundations, slabs, columns and retaining walls. Available in standard and high-strength grades with fast turnaround.",
+    img_url:
+      "https://images.unsplash.com/photo-1590486803833-1c5dc8ddd4c8?w=600",
+    company_id: "8307f059-8fc2-4eda-88ce-394445176ac1",
+  },
+];

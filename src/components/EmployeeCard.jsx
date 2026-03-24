@@ -4,12 +4,12 @@ import { formatDate } from "../utils";
 
 const EmployeeCard = (props) => {
   return (
-    <div className="w-full max-w-[320px] sm:max-w-none sm:w-auto">
+    <div className="w-full">
       <h1 className="text-xl sm:text-[2rem] mt-15 text-white font-semibold mb-6">
         Personal Details
       </h1>
 
-      <div className="bg-[#242424] rounded-3xl w-full max-w-[320px] sm:max-w-none sm:w-auto flex flex-col sm:flex-row gap-0 sm:gap-0 overflow-hidden">
+      <div className="bg-[#242424] rounded-3xl w-full sm:max-w-none sm:w-auto flex flex-col sm:flex-row gap-0 sm:gap-0 overflow-hidden">
         {/* ── Left column: Photo + actions ── */}
         <div className="flex flex-col sm:w-70 md:w-90 shrink-0">
           {/* Photo */}

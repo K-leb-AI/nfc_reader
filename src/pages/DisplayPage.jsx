@@ -10,12 +10,15 @@ import { FaSearch } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import EmployeeCard from "../components/EmployeeCard";
 import CompanyDetails from "../components/CompanyDetails";
+import ProductsSection from "../components/ProductsSection";
+import { _sampleProducts } from "../data";
 
 export default function DisplayPage() {
   const [loading, setLoading] = useState(true);
   const [copied, setCopied] = useState(false);
   const [employee, setEmployee] = useState();
   const [company, setCompany] = useState();
+  const [products, setProducts] = useState([]);
   const navigate = useNavigate();
   const { id } = useParams();
   const [searchId, setSearchId] = useState("");
@@ -62,7 +65,21 @@ export default function DisplayPage() {
         }
         setCompany(companyData);
 
-        console.log(employeeData, companyData);
+        const { data: productData, error: productError } = await supabase
+          .from("products")
+          .select("*")
+          .eq("company_id", companyData.id);
+
+        if (productError) {
+          console.log(`Error fetching product data: `, productError.message);
+          return toast.error(
+            `Error fetching product data: `,
+            productError.message,
+          );
+        }
+        setProducts(productData || []);
+
+        console.log(employeeData, companyData, productData);
         if (employeeData && companyData)
           toast.success(`Fetched data successfully`);
       } catch (e) {
@@ -112,6 +129,7 @@ export default function DisplayPage() {
             </div>
             <CompanyDetails company={company} />
             <EmployeeCard employee={employee} copy={copy} copied={copied} />
+            <ProductsSection products={products} />
           </div>
         </>
       )}

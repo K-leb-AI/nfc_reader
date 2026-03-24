@@ -160,3 +160,20 @@ html {
   background: rgba(212, 180, 131, 0.15) !important;
   color: #d4b483 !important;
 }
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.fade-in {
+  animation: fadeIn 0.35s ease both;
+}
+.thumb-hover:hover {
+  border-color: rgba(212, 180, 131, 0.4) !important;
+}

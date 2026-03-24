@@ -96,7 +96,7 @@ export default function CompanyDetails({ company = _sample }) {
           <div className="bg-[#242424] rounded-3xl">
             <div className="relative h-50" style={{ background: "#d4b48305" }}>
               <svg
-                className="absolute inset-0 w-full h-full opacity-[0.04]"
+                className="absolute inset-0 w-full h-full opacity-[0.05]"
                 xmlns="http://www.w3.org/2000/svg"
               >
                 <defs>
@@ -135,7 +135,7 @@ export default function CompanyDetails({ company = _sample }) {
             </div>
 
             {/* ── Name & plan ── */}
-            <div className="flex items-end justify-between flex-col sm:flex-row ">
+            <div className="flex sm:items-end justify-between flex-col sm:flex-row ">
               <div className="px-5 pt-15 pb-4">
                 <h1
                   className="display text-[2.2rem] sm:text-[2.6rem] leading-none text-[#e8e0d4]"
