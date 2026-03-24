@@ -51,3 +51,94 @@ html {
 .tool-chip:hover {
   opacity: 0.8;
 }
+
+::selection {
+  background: #d4b483;
+  color: #1c1c1e;
+}
+html {
+  scroll-behavior: smooth;
+}
+
+@keyframes heroIn {
+  from {
+    opacity: 0;
+    transform: translateY(22px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.h1 {
+  animation: heroIn 0.7s cubic-bezier(0.22, 1, 0.36, 1) 0.05s both;
+}
+.h2 {
+  animation: heroIn 0.7s cubic-bezier(0.22, 1, 0.36, 1) 0.18s both;
+}
+.h3 {
+  animation: heroIn 0.7s cubic-bezier(0.22, 1, 0.36, 1) 0.3s both;
+}
+.h4 {
+  animation: heroIn 0.7s cubic-bezier(0.22, 1, 0.36, 1) 0.44s both;
+}
+.h5 {
+  animation: heroIn 0.7s cubic-bezier(0.22, 1, 0.36, 1) 0.56s both;
+}
+
+.nav-link {
+  position: relative;
+  color: #888;
+  transition: color 0.15s;
+}
+.nav-link:hover {
+  color: #e8e0d4;
+}
+
+.btn-accent {
+  background: #d4b483;
+  color: #1c1c1e;
+  font-weight: 600;
+  transition:
+    opacity 0.15s,
+    transform 0.15s;
+}
+.btn-accent:hover {
+  opacity: 0.85;
+  transform: translateY(-1px);
+}
+.btn-accent:active {
+  transform: translateY(0);
+}
+
+.btn-ghost {
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #888;
+  transition:
+    border-color 0.2s,
+    color 0.2s,
+    background 0.2s;
+}
+.btn-ghost:hover {
+  border-color: #d4b483;
+  color: #d4b483;
+}
+
+.feature-card {
+  border-top: 1px solid rgba(255, 255, 255, 0.07);
+  transition: border-color 0.2s;
+}
+.feature-card:hover {
+  border-color: #d4b483;
+}
+.feature-card:hover .feat-num {
+  color: #d4b483;
+}
+
+.divider {
+  border-color: rgba(255, 255, 255, 0.06);
+}
+
+.avatar-frame img {
+  border: 2px solid #1c1c1e;
+}
