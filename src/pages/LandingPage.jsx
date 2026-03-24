@@ -284,7 +284,7 @@ export default function AbankeseLanding() {
       {/* ── Stats ────────────────────────────────── */}
       <FadeUp>
         <div className="divider border-y py-10 px-6">
-          <div className="max-w-5xl mx-auto grid grid-cols-3 divide-x divide-white/[0.06]">
+          <div className="max-w-5xl mx-auto grid grid-cols-3 divide-x divide-white/6">
             {stats.map(({ value, label }) => (
               <div
                 key={label}
@@ -361,13 +361,13 @@ export default function AbankeseLanding() {
           <div className="max-w-5xl mx-auto flex flex-col md:flex-row items-center gap-12 md:gap-16">
             {/* Mini profile card */}
             <div
-              className="flex-shrink-0 w-[220px] rounded-2xl overflow-hidden shadow-2xl"
+              className="shrink-0 w-55 rounded-2xl overflow-hidden shadow-2xl"
               style={{
                 background: "#2a2a2a",
                 border: "1px solid rgba(255,255,255,0.06)",
               }}
             >
-              <div className="relative h-[160px]">
+              <div className="relative h-40">
                 <img
                   src="https://i.pravatar.cc/300?img=47"
                   alt=""
