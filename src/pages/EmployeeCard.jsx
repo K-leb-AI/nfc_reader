@@ -60,8 +60,8 @@ export default function EmployeeProfile() {
     return <Loader />;
   }
   return (
-    <div className="min-h-screen bg-[#1c1c1e] flex items-center justify-center p-4 sm:p-6">
-      <div className="flex gap-2 text-3xl text-white items-center absolute top-10 md:top-20 font-bold">
+    <div className="min-h-screen bg-[#1c1c1e] flex flex-col items-center justify-center p-4 sm:p-10">
+      <div className="flex gap-2 text-3xl text-white items-center mb-20 font-bold">
         <HiLightningBolt size={25} className="text-[#d4b483]" />
         <p>
           Abankese <span className="font-light text-[#d4b483]">Axis</span>
