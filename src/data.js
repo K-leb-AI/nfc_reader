@@ -1,0 +1,15 @@
+export const employee = {
+  id: "43587543",
+  name: "Amara Osei-Bonsu",
+  created_at: "2022-03-14T09:00:00Z",
+  img_url: "https://i.pravatar.cc/400?img=47",
+  role: "Senior Product Designer",
+  department: "Design & Experience",
+  email: "amara.osei@company.io",
+  is_active: true,
+  phone: "(718) 302-1546",
+  level: "Senior",
+  manager: "Ava Collins",
+  account_name: "amaraosei",
+  city: "New York",
+};

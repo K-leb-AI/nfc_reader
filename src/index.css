@@ -1,0 +1,53 @@
+@import url("https://fonts.googleapis.com/css2?family=BIZ+UDPGothic&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Rethink+Sans:ital,wght@0,400..800;1,400..800&display=swap");
+@import url("https://fonts.cdnfonts.com/css/satoshi");
+@import "tailwindcss";
+
+@theme inline {
+  --color-fg-1: #1c201a;
+  --color-fg-2: #7e7e7e;
+  --color-bg: #eef4eb;
+  --color-bg-2: #eef0ed;
+  --color-bg-dark-1: #202020;
+  --color-bg-dark-2: #323232;
+  --color-accent: #00a780;
+  --color-dark-accent: #00503d;
+  --color-button: #dee2dc;
+  --color-card: #f3f3f3;
+  --font-primary: "Satoshi", "Rethink Sans", "Inter", sans-serif;
+  --font-biz: "BIZ UDPGothic";
+}
+
+html {
+  scroll-behavior: smooth;
+  font-family: var(--font-primary);
+  font-size: 12px;
+  color: var(--color-fg-1);
+  overflow-x: hidden;
+}
+
+.display {
+  font-family: "Bebas Neue", sans-serif;
+}
+.mono {
+  font-family: "DM Mono", monospace;
+}
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.card {
+  animation: fadeIn 0.45s ease both;
+}
+.icon-btn:hover {
+  background: rgba(212, 180, 131, 0.15);
+  color: #d4b483;
+}
+.tool-chip:hover {
+  opacity: 0.8;
+}
