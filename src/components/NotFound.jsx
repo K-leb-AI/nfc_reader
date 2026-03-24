@@ -70,19 +70,14 @@ const NotFound = (props) => {
             )}
           </p>
 
-          <div className="mt-6 pt-5 border-t border-white/6 flex gap-3">
-            <button
-              className="flex-1 py-2.5 text-[11px] tracking-[0.12em] uppercase font-medium rounded-xl bg-white/5 text-[#666] hover:bg-white/9 hover:text-[#e8e0d4] transition-all duration-150"
-              onClick={() => {
-                navigate(-1);
-              }}
-            >
-              Go Back
-            </button>
-            <button className="flex-1 py-2.5 text-[11px] tracking-[0.12em] uppercase font-medium rounded-xl border border-[#d4b483]/20 bg-[#d4b483]/8 text-[#d4b483] hover:bg-[#d4b483]/15 transition-all duration-150">
-              Search Again
-            </button>
-          </div>
+          <button
+            className="w-full mt-6 flex-1 py-2.5 text-[11px] tracking-[0.12em] uppercase font-medium rounded-xl bg-white/5 text-[#666] hover:bg-white/9 hover:text-[#e8e0d4] transition-all duration-150"
+            onClick={() => {
+              navigate(-1);
+            }}
+          >
+            Go Back
+          </button>
         </div>
       </div>
     </div>

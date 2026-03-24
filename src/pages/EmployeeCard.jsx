@@ -183,6 +183,14 @@ export default function EmployeeProfile() {
               </div>
             </div>
           </div>
+          <div className="mt-5">
+            <button
+              className="px-8 py-3 rounded-2xl cursor-pointer hover:opacity-85 duration-300 text-[#d4b483] w-full text-center"
+              onClick={() => navigate("/")}
+            >
+              Go back to the Landing Page
+            </button>
+          </div>
         </div>
       )}
     </div>
