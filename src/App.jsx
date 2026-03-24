@@ -1,4 +1,4 @@
-import EmployeeProfile from "./pages/EmployeeCard";
+import EmployeeProfile from "./components/EmployeeCard";
 import { Toaster } from "react-hot-toast";
 import { Outlet } from "react-router-dom";
 

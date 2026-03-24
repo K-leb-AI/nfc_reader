@@ -142,3 +142,21 @@ html {
 .avatar-frame img {
   border: 2px solid #1c1c1e;
 }
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.fade-in {
+  animation: fadeIn 0.4s ease both;
+}
+.icon-btn:hover {
+  background: rgba(212, 180, 131, 0.15) !important;
+  color: #d4b483 !important;
+}
