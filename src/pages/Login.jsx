@@ -58,12 +58,17 @@ const Login = () => {
     }
   };
 
+  const url =
+    import.meta.env.VITE_BASE_URL === "production"
+      ? import.meta.env.VITE_BASE_URL
+      : window.location.origin;
+
   const handleGoogleSignup = async () => {
     try {
       const { data, error } = await supabase.auth.signInWithOAuth({
         provider: "google",
         options: {
-          redirectTo: `${window.location.origin}/dashboard`,
+          redirectTo: `${url}/dashboard`,
         },
       });
 
