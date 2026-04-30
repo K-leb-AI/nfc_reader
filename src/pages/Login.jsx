@@ -59,7 +59,7 @@ const Login = () => {
   };
 
   const url =
-    import.meta.env.VITE_BASE_URL === "production"
+    import.meta.env.VITE_STATUS === "production"
       ? "https://abankeseaxis.vercel.app"
       : window.location.origin;
 
