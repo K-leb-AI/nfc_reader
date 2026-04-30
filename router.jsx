@@ -9,7 +9,7 @@ import DashboardLayout from "./src/pages/dashboard/DashboardLayout";
 import Home from "./src/pages/dashboard/home";
 import Employee from "./src/pages/dashboard/Employee";
 import Marketplace from "./src/pages/dashboard/Marketplace";
-import Settings from "./src/pages/dashboard/settings";
+import Settings from "./src/pages/dashboard/Settings";
 import ActivityLogs from "./src/pages/dashboard/Logs";
 import OrderPage from "./src/pages/dashboard/OrderPage";
 import Login from "./src/pages/Login";
