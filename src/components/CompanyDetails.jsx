@@ -1,5 +1,6 @@
 import { useState } from "react";
 // import { _sample } from "../data";
+import { FaLocationDot } from "react-icons/fa6";
 
 export default function CompanyDetails({ company = _sample }) {
   const co = company;
@@ -10,8 +11,6 @@ export default function CompanyDetails({ company = _sample }) {
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   };
-
-  const plan = co?.plan ?? "free";
 
   const companyActions = [
     {
@@ -66,22 +65,8 @@ export default function CompanyDetails({ company = _sample }) {
       ),
     },
     {
-      title: "More",
-      icon: (
-        <svg
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="1.8"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          className="w-5 h-5"
-        >
-          <circle cx="12" cy="12" r="1" />
-          <circle cx="19" cy="12" r="1" />
-          <circle cx="5" cy="12" r="1" />
-        </svg>
-      ),
+      title: "Location",
+      icon: <FaLocationDot />,
     },
   ];
 
@@ -134,6 +119,14 @@ export default function CompanyDetails({ company = _sample }) {
               </div>
             </div>
 
+            <a
+              href={co.google_maps_url}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              View Location on Google Maps
+            </a>
+
             {/* ── Name & plan ── */}
             <div className="flex sm:items-end justify-between flex-col sm:flex-row ">
               <div className="px-5 pt-15 pb-4">
@@ -144,8 +137,8 @@ export default function CompanyDetails({ company = _sample }) {
                   {co.name}
                 </h1>
                 <p className="text-white/60">
-                  <span className="text-[#d4b483]">{co.address}</span>,{" "}
-                  {co.city}, {co.country}
+                  <span className="text-accent">{co.address},</span>{" "}
+                  {co.country}
                 </p>
               </div>
 

@@ -5,7 +5,7 @@ export function DetailItem({ label, value, accent }) {
         {label}
       </span>
       <span
-        className={`text-[16px] leading-snug ${accent ? "text-[#d4b483]" : "text-[#e8e0d4]"}`}
+        className={`text-[16px] leading-snug ${accent ? "text-accent" : "text-[#e8e0d4]"}`}
       >
         {value}
       </span>

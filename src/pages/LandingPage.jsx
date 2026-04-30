@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { HiLightningBolt } from "react-icons/hi";
+import { useNavigate } from "react-router-dom";
 
 const features = [
   {
@@ -66,7 +67,6 @@ function FadeUp({ children, delay = 0, className = "" }) {
   );
 }
 
-// NFC tap animation
 function NFCIcon() {
   return (
     <div className="relative flex items-center justify-center w-10 h-10">
@@ -104,6 +104,7 @@ function NFCIcon() {
 
 export default function AbankeseLanding() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const navigate = useNavigate();
 
   return (
     <div
@@ -112,7 +113,7 @@ export default function AbankeseLanding() {
     >
       {/* ── Nav ────────────────────────────────── */}
       <nav
-        className="fixed top-0 left-0 right-0 z-50 backdrop-blur-md"
+        className="fixed top-0 left-0 right-0 z-50 backdrop-blur-md py-5"
         style={{
           backgroundColor: "rgba(28,28,30,0.85)",
           borderBottom: "1px solid rgba(255,255,255,0.06)",
@@ -122,28 +123,32 @@ export default function AbankeseLanding() {
           {/* Wordmark */}
           <div className="flex items-center gap-3">
             <div className="flex gap-2 text-white items-center font-medium">
-              <HiLightningBolt size={15} className="text-[#d4b483]" />
+              <HiLightningBolt size={15} className="text-accent" />
               <p>
-                Abankese <span className="font-light text-[#d4b483]">Axis</span>
+                Abankese <span className="font-light text-accent">Axis</span>
               </p>
             </div>
           </div>
 
           <div className="hidden md:flex items-center gap-8">
             {["How it works", "Platform", "Pricing"].map((l) => (
-              <a key={l} href="#" className="nav-link text-sm">
+              <a key={l} href="#" className="nav-link">
                 {l}
               </a>
             ))}
           </div>
 
           <div className="hidden md:flex items-center gap-3">
-            <a href="#" className="nav-link text-sm">
+            <a
+              href="#"
+              className="nav-link"
+              onClick={() => navigate("/signup")}
+            >
               Sign in
             </a>
             <a
               href="#"
-              className="btn-accent text-xs tracking-wide px-4 py-2 rounded-lg"
+              className="btn-accent tracking-wide px-4 py-2 rounded-lg"
             >
               Order tags
             </a>

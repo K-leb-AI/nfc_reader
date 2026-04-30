@@ -4,9 +4,9 @@ import { useNavigate } from "react-router-dom";
 const NoPage = () => {
   const navigate = useNavigate();
   return (
-    <div className="min-h-screen bg-[#1c1c1e] flex items-center justify-center p-4 sm:p-6 text-white">
+    <div className="min-h-screen bg-bg flex items-center justify-center p-4 sm:p-6 text-white">
       <div className="flex flex-col items-center">
-        <SiQuantconnect size={70} className="text-[#d4b483]" />
+        <SiQuantconnect size={70} className="text-accent" />
         <p className="font-bold text-5xl mt-10">404</p>
         <p className="mt-5 opacity-60 text-xl">
           The page you're looking for does not exist

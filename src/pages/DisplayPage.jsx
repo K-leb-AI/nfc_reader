@@ -1,17 +1,17 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { supabase } from "../../superbaseClient";
 import Loader from "../components/Loader";
 // import { employee } from "../data";
 import toast from "react-hot-toast";
-import { useParams } from "react-router-dom";
+import { data, useParams } from "react-router-dom";
 import { NotFound } from "../components/NotFound";
-import { HiLightningBolt } from "react-icons/hi";
 import { FaSearch } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import EmployeeCard from "../components/EmployeeCard";
 import CompanyDetails from "../components/CompanyDetails";
 import ProductsSection from "../components/ProductsSection";
 import { _sampleProducts } from "../data";
+import Logo from "../components/Logo";
 
 export default function DisplayPage() {
   const [loading, setLoading] = useState(true);
@@ -22,9 +22,10 @@ export default function DisplayPage() {
   const navigate = useNavigate();
   const { id } = useParams();
   const [searchId, setSearchId] = useState("");
+  const isMounted = useRef(false);
 
   const copy = () => {
-    navigator.clipboard.writeText(emp.email);
+    navigator.clipboard.writeText(employee.email);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   };
@@ -79,7 +80,6 @@ export default function DisplayPage() {
         }
         setProducts(productData || []);
 
-        console.log(employeeData, companyData, productData);
         if (employeeData && companyData)
           toast.success(`Fetched data successfully`);
       } catch (e) {
@@ -92,16 +92,40 @@ export default function DisplayPage() {
     fetchData();
   }, [id]);
 
+  useEffect(() => {
+    if (isMounted.current) return;
+    isMounted.current = true;
+
+    console.log(`Entered`);
+    const recordCardTap = async () => {
+      try {
+        const { data, error } = await supabase
+          .from("activity_logs")
+          .insert({
+            event_type: "card_tap",
+            employee_id: employee.id,
+            company_id: employee.company_id,
+            actor: null,
+            description_text: `${employee.name}'s card was tapped.`,
+          })
+          .select("*")
+          .maybeSingle();
+      } catch (e) {
+        console.log(`Error recording card tap: `, e);
+      }
+    };
+    if (employee) {
+      recordCardTap();
+    }
+  }, [employee]);
+
   if (loading) {
     return <Loader />;
   }
   return (
-    <div className=" bg-[#1c1c1e] flex flex-col items-center py-10 px-4 min-h-screen justify-center">
-      <div className="flex gap-2 text-3xl text-white items-center mb-12 font-bold">
-        <HiLightningBolt size={25} className="text-[#d4b483]" />
-        <p>
-          Abankese <span className="font-light text-[#d4b483]">Axis</span>
-        </p>
+    <div className=" bg-bg flex flex-col items-center py-10 px-4 min-h-screen justify-center">
+      <div className="mb-12">
+        <Logo />
       </div>
       {!employee && (
         <>
@@ -111,22 +135,22 @@ export default function DisplayPage() {
       {employee && (
         <>
           <div className="grid grid-cols-1">
-            <div className="flex gap-4">
+            {/* <div className="flex gap-4">
               <input
                 type="text"
-                className="w-full bg-[#242424] border border-white/6 placeholder:text-[#888] rounded-2xl px-5 py-4 text-sm text-white "
+                className="w-full bg-bg-2 border border-white/6 placeholder:text-[#888] rounded-2xl px-5 py-4 text-sm text-white "
                 placeholder="Enter employee ID"
                 value={searchId}
                 onChange={(e) => setSearchId(e.target.value)}
               />
               <button
-                className="bg-[#d4b483] text-[#1c1c1e] px-8 py-5 rounded-2xl w-1/4 font-semibold hover:bg-[#c4a473] transition-colors"
+                className="bg-accent text-bg px-8 py-5 rounded-2xl w-1/4 font-semibold hover:bg-[#c4a473] transition-colors"
                 onClick={handleSearch}
               >
                 <FaSearch className="inline-block sm:hidden" size={20} />
                 <p className="hidden sm:block">Search Id</p>
               </button>
-            </div>
+            </div> */}
             <CompanyDetails company={company} />
             <EmployeeCard employee={employee} copy={copy} copied={copied} />
             <ProductsSection products={products} />
