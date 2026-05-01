@@ -39,7 +39,7 @@ const AddEmployeeModal = (props) => {
   const [imageReset, setImageReset] = useState(0);
   const set = (key) => (e) => setForm((f) => ({ ...f, [key]: e.target.value }));
   const [isSaving, setIsSaving] = useState(false);
-  const { company_profile } = useAuthStore();
+  const { user, company_profile } = useAuthStore();
   // Add this helper above the component
 
   const createEmployee = async () => {
@@ -112,21 +112,37 @@ const AddEmployeeModal = (props) => {
       }
 
       const avatar_url = image && (await uploadImage());
-      const { data, error } = await supabase.from("employee").insert({
-        name: form.name,
-        img_url: avatar_url || form.img_url,
-        role: form.role,
-        department: form.department,
-        email: form.email,
-        is_active: form.is_active,
-        city: form.city,
-        phone: form.phone,
-        whatsapp: form.whatsapp,
-        linkedin: form.linkedin,
-        company_id: company_profile.id,
-      });
+      const { data, error } = await supabase
+        .from("employee")
+        .insert({
+          name: form.name,
+          img_url: avatar_url || form.img_url,
+          role: form.role,
+          department: form.department,
+          email: form.email,
+          is_active: form.is_active,
+          city: form.city,
+          phone: form.phone,
+          whatsapp: form.whatsapp,
+          linkedin: form.linkedin,
+          company_id: company_profile.id,
+        })
+        .select("*")
+        .maybeSingle();
 
       if (error) throw error;
+
+      const { error: activityLogError } = await supabase
+        .from("activity_logs")
+        .insert({
+          event_type: "new_employee",
+          employee_id: data.id,
+          company_id: data.company_id,
+          actor: user.id,
+          description_text: `${data.name} was added as a new employee.`,
+        });
+
+      if (activityLogError) throw activityLogError;
       else toast.success("Saved Successfully!");
     } catch (error) {
       console.log("Error trying to save changes: ", error);

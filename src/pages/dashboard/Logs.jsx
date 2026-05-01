@@ -13,11 +13,10 @@ import StatCard from "../../components/StatCard";
 
 const EVENT_TYPES = [
   { value: "all", label: "All Events" },
-  { value: "tap", label: "Card Taps" },
-  { value: "create", label: "New Employees" },
-  { value: "update", label: "Profile Updates" },
-  { value: "assign", label: "Tag Assignments" },
-  { value: "deactivate", label: "Deactivations" },
+  { value: "card_tap", label: "Card Taps" },
+  { value: "new_employee", label: "New Employees" },
+  { value: "profile_update", label: "Profile Updates" },
+  { value: "deactivation", label: "Deactivations" },
 ];
 
 const ActivityLogs = () => {
@@ -45,18 +44,19 @@ const ActivityLogs = () => {
       if (error) throw error;
       setLogs(data ?? []);
 
-      console.log(data);
-
       // Compute quick stats
       const total = data.length;
-      const taps = data.filter((l) => l.event_type === "tap").length;
-      const creates = data.filter((l) => l.event_type === "create").length;
+      const taps = data.filter((l) => l.event_type === "card_tap").length;
+      console.log(taps);
+
+      const creates = data.filter(
+        (l) => l.event_type === "new_employee",
+      ).length;
       const today = data.filter((l) => {
         const d = new Date(l.created_at);
         const now = new Date();
         return d.toDateString() === now.toDateString();
       }).length;
-
       setStats({ total, taps, creates, today });
     } catch (err) {
       console.error(err);
@@ -82,10 +82,9 @@ const ActivityLogs = () => {
       const q = search.toLowerCase();
       result = result.filter(
         (l) =>
-          l.employee_name?.toLowerCase().includes(q) ||
-          l.tag_id?.toLowerCase().includes(q) ||
+          l.description_text?.toLowerCase().includes(q) ||
           l.event_type?.toLowerCase().includes(q) ||
-          l.employee_id?.toLowerCase().includes(q),
+          String(l.employee_id)?.toLowerCase().includes(q),
       );
     }
 

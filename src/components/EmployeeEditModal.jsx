@@ -8,6 +8,7 @@ import { supabase } from "../../superbaseClient";
 import toast from "react-hot-toast";
 import Compressor from "compressorjs";
 import { useEmpStore } from "../stores/employeeStore";
+import { useAuthStore } from "../stores/authStore";
 
 function Field({ label, icon, children }) {
   return (
@@ -45,6 +46,7 @@ const EmployeeEditModal = (props) => {
   const [isEditable, setIsEditable] = useState(false);
   const set = (key) => (e) => setForm((f) => ({ ...f, [key]: e.target.value }));
   const [isSaving, setIsSaving] = useState(false);
+  const { user } = useAuthStore();
   // Add this helper above the component
   const normalize = (emp) =>
     Object.fromEntries(Object.entries(emp ?? {}).map(([k, v]) => [k, v ?? ""]));
@@ -128,7 +130,34 @@ const EmployeeEditModal = (props) => {
         .eq("id", form.id);
 
       if (error) throw error;
-      else toast.success("Saved Successfully!");
+
+      if (form.is_active) {
+        const { error: activityLogError } = await supabase
+          .from("activity_logs")
+          .insert({
+            event_type: "profile_update",
+            employee_id: selectedEmployee.id,
+            company_id: selectedEmployee.company_id,
+            actor: user.id,
+            description_text: `${selectedEmployee.name}'s profile was updated.`,
+          });
+
+        if (activityLogError) throw activityLogError;
+      } else {
+        const { error: activityLogError } = await supabase
+          .from("activity_logs")
+          .insert({
+            event_type: "deactivation",
+            employee_id: selectedEmployee.id,
+            company_id: selectedEmployee.company_id,
+            actor: user.id,
+            description_text: `${selectedEmployee.name}'s profile was deactivated.`,
+          });
+
+        if (activityLogError) throw activityLogError;
+      }
+
+      toast.success("Saved Successfully!");
     } catch (error) {
       console.log("Error trying to save changes: ", error);
       toast.error(error.message);

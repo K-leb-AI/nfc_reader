@@ -27,7 +27,7 @@ const parseCSV = (file) =>
   );
 
 const BulkModal = () => {
-  const { company_profile } = useAuthStore();
+  const { user, company_profile } = useAuthStore();
   const [csv, setCsv] = useState(null);
   const [validation, setValidation] = useState(null); // null | { valid, missing, headers }
   const [checking, setChecking] = useState(false);
@@ -105,6 +105,18 @@ const BulkModal = () => {
 
       const { error } = await supabase.from("employee").insert(employees);
       if (error) throw error;
+
+      const { error: activityLogError } = await supabase
+        .from("activity_logs")
+        .insert({
+          event_type: "new_employee",
+          employee_id: null, // We don't have individual IDs here, so we can leave this null or handle it differently
+          company_id: company_profile.id,
+          actor: user.id,
+          description_text: `${employees?.length} employee${employees?.length !== 1 ? "s" : ""} were added.`,
+        });
+
+      if (activityLogError) throw activityLogError;
 
       toast.success(
         `${employees.length} employee${employees.length > 1 ? "s" : ""} added!`,

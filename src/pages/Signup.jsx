@@ -120,12 +120,17 @@ const Signup = () => {
     }
   };
 
+  const url =
+    import.meta.env.VITE_STATUS === "production"
+      ? import.meta.env.VITE_BASE_URL
+      : window.location.origin;
+
   const handleGoogleSignup = async () => {
     try {
       const { data, error } = await supabase.auth.signInWithOAuth({
         provider: "google",
         options: {
-          redirectTo: `${window.location.origin}/onboarding`,
+          redirectTo: `${url}/onboarding`,
         },
       });
 

@@ -60,7 +60,7 @@ const Login = () => {
 
   const url =
     import.meta.env.VITE_STATUS === "production"
-      ? "https://abankeseaxis.vercel.app"
+      ? import.meta.env.VITE_BASE_URL
       : window.location.origin;
 
   const handleGoogleSignup = async () => {

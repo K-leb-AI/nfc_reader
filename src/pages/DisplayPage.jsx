@@ -22,7 +22,7 @@ export default function DisplayPage() {
   const navigate = useNavigate();
   const { id } = useParams();
   const [searchId, setSearchId] = useState("");
-  const isMounted = useRef(false);
+  const hasLogged = useRef(false);
 
   const copy = () => {
     navigator.clipboard.writeText(employee.email);
@@ -36,6 +36,7 @@ export default function DisplayPage() {
   };
 
   useEffect(() => {
+    let ignore = false; // ← scoped to this effect run
     const fetchData = async () => {
       try {
         const { data: employeeData, error: employeeError } = await supabase
@@ -44,13 +45,20 @@ export default function DisplayPage() {
           .eq("id", id)
           .maybeSingle();
 
-        if (employeeError) {
-          return toast.error(
-            `Error fetching employee data: `,
-            employeeError.message,
-          );
-        }
+        if (employeeError || !employeeData) throw employeeError;
+
         setEmployee(employeeData);
+
+        if (!ignore) {
+          // const { data: activityLogData, error: activityLogError } =
+          await supabase.from("activity_logs").insert({
+            event_type: "card_tap",
+            employee_id: employeeData.id,
+            company_id: employeeData.company_id,
+            actor: null,
+            description_text: `${employeeData.name}'s card was tapped.`,
+          });
+        }
 
         const { data: companyData, error: companyError } = await supabase
           .from("company")
@@ -85,39 +93,43 @@ export default function DisplayPage() {
       } catch (e) {
         console.log(`Error fetching data: `, e.message);
       } finally {
-        setLoading(false);
+        if (!ignore) setLoading(false);
       }
     };
 
     fetchData();
+    return () => {
+      ignore = true;
+    };
   }, [id]);
 
-  useEffect(() => {
-    if (isMounted.current) return;
-    isMounted.current = true;
+  // useEffect(() => {
+  //   if (isMounted.current) return;
+  //   isMounted.current = true;
 
-    console.log(`Entered`);
-    const recordCardTap = async () => {
-      try {
-        const { data, error } = await supabase
-          .from("activity_logs")
-          .insert({
-            event_type: "card_tap",
-            employee_id: employee.id,
-            company_id: employee.company_id,
-            actor: null,
-            description_text: `${employee.name}'s card was tapped.`,
-          })
-          .select("*")
-          .maybeSingle();
-      } catch (e) {
-        console.log(`Error recording card tap: `, e);
-      }
-    };
-    if (employee) {
-      recordCardTap();
-    }
-  }, [employee]);
+  //   console.log(`Entered`);
+  //   console.log(employee);
+  //   const recordCardTap = async () => {
+  //     try {
+  //       const { data, error } = await supabase
+  //         .from("activity_logs")
+  //         .insert({
+  //           event_type: "card_tap",
+  //           employee_id: employee.id,
+  //           company_id: employee.company_id,
+  //           actor: null,
+  //           description_text: `${employee.name}'s card was tapped.`,
+  //         })
+  //         .select("*")
+  //         .maybeSingle();
+  //     } catch (e) {
+  //       console.log(`Error recording card tap: `, e);
+  //     }
+  //   };
+  //   if (employee) {
+  //     recordCardTap();
+  //   }
+  // }, [employee]);
 
   if (loading) {
     return <Loader />;
