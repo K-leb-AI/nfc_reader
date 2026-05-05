@@ -2,7 +2,7 @@ import { useState } from "react";
 // import { _sample } from "../data";
 import { FaLocationDot } from "react-icons/fa6";
 
-export default function CompanyDetails({ company = _sample }) {
+export default function CompanyDetails({ company }) {
   const co = company;
   const [copied, setCopied] = useState(false);
 
@@ -78,7 +78,7 @@ export default function CompanyDetails({ company = _sample }) {
       {co && (
         <div className="fade-in w-full rounded-3xl overflow-hidden">
           {/* ── Cover ── */}
-          <div className="bg-[#242424] rounded-3xl">
+          <div className="bg-bg-2 rounded-3xl">
             <div className="relative h-50" style={{ background: "#d4b48305" }}>
               <svg
                 className="absolute inset-0 w-full h-full opacity-[0.05]"
@@ -131,7 +131,7 @@ export default function CompanyDetails({ company = _sample }) {
             <div className="flex sm:items-end justify-between flex-col sm:flex-row ">
               <div className="px-5 pt-15 pb-4">
                 <h1
-                  className="display text-[2.2rem] sm:text-[2.6rem] leading-none text-[#e8e0d4]"
+                  className="display text-[2.2rem] sm:text-[2.6rem] leading-none text-fg-2"
                   style={{ letterSpacing: "0.02em" }}
                 >
                   {co.name}

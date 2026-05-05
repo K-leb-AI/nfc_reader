@@ -10,6 +10,7 @@ import { IoStatsChart } from "react-icons/io5";
 import Loader from "../../components/Loader";
 import ActivityRow from "../../components/ActivityRow";
 import StatCard from "../../components/StatCard";
+import { useActivityStore } from "../../stores/activityStore";
 
 const EVENT_TYPES = [
   { value: "all", label: "All Events" },
@@ -24,60 +25,36 @@ const ActivityLogs = () => {
   const [logs, setLogs] = useState([]);
   const [filtered, setFiltered] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [refreshing, setRefreshing] = useState(false);
   const [search, setSearch] = useState("");
   const [typeFilter, setTypeFilter] = useState("all");
   const [stats, setStats] = useState(null);
+  const { storeLogs, setStoreLogs } = useActivityStore();
+  const computeLogs = async () => {
+    const total = storeLogs.length;
+    const taps = storeLogs.filter((l) => l.event_type === "card_tap").length;
+    const created = storeLogs.filter(
+      (l) => l.event_type === "new_employee",
+    ).length;
 
-  const fetchLogs = async (silent = false) => {
-    if (!silent) setLoading(true);
-    else setRefreshing(true);
+    const today = storeLogs.filter((l) => {
+      const d = new Date(l.created_at);
+      const now = new Date();
+      return d.toDateString() === now.toDateString();
+    }).length;
 
-    try {
-      const { data, error } = await supabase
-        .from("activity_logs")
-        .select("*")
-        .eq("company_id", company_profile.id)
-        .order("created_at", { ascending: false })
-        .limit(200);
+    setStats({ total, taps, created, today });
 
-      if (error) throw error;
-      setLogs(data ?? []);
-
-      // Compute quick stats
-      const total = data.length;
-      const taps = data.filter((l) => l.event_type === "card_tap").length;
-      console.log(taps);
-
-      const creates = data.filter(
-        (l) => l.event_type === "new_employee",
-      ).length;
-      const today = data.filter((l) => {
-        const d = new Date(l.created_at);
-        const now = new Date();
-        return d.toDateString() === now.toDateString();
-      }).length;
-      setStats({ total, taps, creates, today });
-    } catch (err) {
-      console.error(err);
-      toast.error("Could not load activity logs.");
-    } finally {
-      setLoading(false);
-      setRefreshing(false);
-    }
+    setLoading(false);
   };
-
   useEffect(() => {
-    fetchLogs();
-  }, [profile_loading]);
+    computeLogs();
+  }, [storeLogs]);
 
   // ── Filter ──────────────────────────────────────────────
   useEffect(() => {
-    let result = [...logs];
-
+    let result = [...storeLogs];
     if (typeFilter !== "all")
       result = result.filter((l) => l.event_type === typeFilter);
-
     if (search.trim()) {
       const q = search.toLowerCase();
       result = result.filter(
@@ -87,9 +64,8 @@ const ActivityLogs = () => {
           String(l.employee_id)?.toLowerCase().includes(q),
       );
     }
-
     setFiltered(result);
-  }, [logs, typeFilter, search]);
+  }, [typeFilter, search, storeLogs]);
 
   if (loading || profile_loading) return <Loader />;
 
@@ -97,19 +73,7 @@ const ActivityLogs = () => {
     <div className="min-h-screen p-4 sm:p-6 md:p-8 text-fg-2">
       <div className="mx-auto flex flex-col gap-6">
         {/* ── Header ── */}
-        <div className="flex items-start justify-end gap-4 flex-wrap">
-          <button
-            onClick={() => fetchLogs(true)}
-            disabled={refreshing}
-            className="flex items-center gap-2 px-4 py-2 rounded-xl text-[12px] font-medium border border-white/8 text-fg-2/50 hover:border-white/20 hover:text-fg-2 transition-all duration-150 disabled:opacity-40"
-          >
-            <FiRefreshCw
-              size={13}
-              className={refreshing ? "animate-spin" : ""}
-            />
-            Refresh
-          </button>
-        </div>
+        <div className="flex items-start justify-end gap-4 flex-wrap"></div>
 
         {/* ── Stat cards ── */}
         {stats && (
@@ -133,7 +97,7 @@ const ActivityLogs = () => {
             />
             <StatCard
               label="New Employees"
-              value={stats.creates}
+              value={stats.created}
               icon={<MdPersonAdd size={16} />}
               accent="#018c50"
             />
@@ -221,9 +185,9 @@ const ActivityLogs = () => {
           {filtered.length > 0 && (
             <div className="px-4 sm:px-5 py-3 border-t border-white/6 flex items-center justify-between">
               <span className="text-[11px] text-[#555]">
-                Showing {filtered.length} of {logs.length} events
+                Showing {filtered.length} of {storeLogs.length} events
               </span>
-              {logs.length >= 200 && (
+              {storeLogs.length >= 200 && (
                 <span className="text-[11px] text-[#555]">
                   Showing latest 200 — refine filters to see more
                 </span>

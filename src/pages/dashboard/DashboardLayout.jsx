@@ -12,9 +12,17 @@ import { useNavStore } from "../../stores/navStore";
 import { supabase } from "../../../superbaseClient";
 import { useEffect } from "react";
 import { useEmpStore } from "../../stores/employeeStore";
+import { useActivityStore } from "../../stores/activityStore";
 
 const DashboardLayout = () => {
-  const { signOut, user, setCompanyProfile, company_profile } = useAuthStore();
+  const {
+    signOut,
+    user,
+    setCompanyProfile,
+    company_profile,
+    auth_loading,
+    profile_loading,
+  } = useAuthStore();
   const { setEmployees, employees } = useEmpStore();
   const navLinks = [
     {
@@ -45,6 +53,7 @@ const DashboardLayout = () => {
   ];
   const { activeLink, setActiveLink } = useNavStore();
   const navigate = useNavigate();
+  const { storeLogs, setStoreLogs } = useActivityStore();
 
   useEffect(() => {
     if (!user?.id) return;
@@ -73,7 +82,6 @@ const DashboardLayout = () => {
           .select("*")
           .eq("company_id", company_profile.id);
         if (employeeError) {
-          console.error("Error fetching employee data:", employeeError);
           throw employeeError;
         } else {
           setEmployees(employeeData);
@@ -82,9 +90,28 @@ const DashboardLayout = () => {
         console.error("Error fetching employee data:", error);
       }
     };
-    getEmployeeData();
-  }, [company_profile, employees]);
+    const fetchLogs = async () => {
+      try {
+        const { data: logData, error: logError } = await supabase
+          .from("activity_logs")
+          .select("*")
+          .eq("company_id", company_profile.id)
+          .order("created_at", { ascending: false });
 
+        if (logError) throw logError;
+        else setStoreLogs(logData);
+      } catch (err) {
+        console.error("Error loading activity logs:", err);
+      }
+    };
+
+    getEmployeeData();
+    fetchLogs();
+  }, [company_profile, employees, storeLogs]);
+
+  if (auth_loading || profile_loading) {
+    return <Loader />;
+  }
   if (!user) {
     return <Unauthenticated />;
   }

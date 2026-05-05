@@ -58,7 +58,7 @@ function ActivityRow({ log }) {
         {/* Time */}
         <span
           className="text-[11px] text-[#555] shrink-0 hidden sm:block"
-          title={fullDate(log.created_at)}
+          title={formatLogDate(log.created_at)}
         >
           {formatLogDate(log.created_at)}
         </span>
